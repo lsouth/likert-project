@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.stats import gumbel_r
+import scipy.stats as stats
 
 
 def categorize(sample):
@@ -12,8 +12,7 @@ def sampleIndependentNormal(numSamples=100, offset=0):
 	"""
 	errors are independently from normal distribution N(0,1)
 	"""
-	errors = np.random.normal(loc=0, scale=1, size=numSamples)
-	sample = offset + errors
+	sample = np.random.normal(loc=offset, scale=1, size=numSamples)
 	return categorize(sample)
 
 def sampleIndpendentContinuousSymmetric(numSamples=100, offset=0):
@@ -25,7 +24,7 @@ def sampleIndpendentContinuousSymmetric(numSamples=100, offset=0):
 	sample = offset + errors
 	return categorize(sample)
 
-def sampleIndependentContinuousAsymmetric(numSamples, offset=0):
+def sampleIndependentContinuousAsymmetric(numSamples=100, offset=0):
 	"""
 	errors are independent, continuous, median=0, but Asymmetric
 	Gumbel Distribution:
@@ -39,11 +38,11 @@ def sampleIndependentContinuousAsymmetric(numSamples, offset=0):
 	# Define Parameters so that median is 0 and mean > 0
 	beta = 1
 	mu = np.log(np.log(2))
-	errors = gumbel_r(loc=mu, scale=beta, size=numSamples)
+	errors = stats.gumbel_r.rvs(loc=mu, scale=beta, size=numSamples)
 	sample = offset + errors
 	return categorize(sample)
 
-def generateDependentSamplesLatentNormal(numSamplesPerCluster, numClusters):
+def generateDependentSamplesLatentNormal(numSamples=100, numClusters=2):
 	"""
 	draw cluster means from normal distribution
 	Then draw samples from each of those clusters
@@ -51,11 +50,11 @@ def generateDependentSamplesLatentNormal(numSamplesPerCluster, numClusters):
 	clusterMeans = np.random.normal(loc=4,scale=1,size = numClusters)
 	samples = []
 	for c in clusterMeans:
-	    c_samp = np.random.normal(loc=c,scale=0.25,size=numSamplesPerCluster)
-	    samples += c_samp
+	    c_samp = np.random.normal(loc=c,scale=0.25,size=numSamples)
+	    samples = np.concatenate((samples,c_samp))
 	return categorize(samples)
 
-def generateDependentSamplesLatentLogistic(numSamplesPerCluster, numClusters):
+def generateDependentSamplesLatentLogistic(numSamples=100, numClusters=2):
 	"""
 	draw cluster means from normal distribution
 	Then draw samples from each of those clusters
@@ -63,7 +62,7 @@ def generateDependentSamplesLatentLogistic(numSamplesPerCluster, numClusters):
 	clusterMeans = np.random.logistic(loc=4,scale=1,size = numClusters)
 	samples = []
 	for c in clusterMeans:
-	    c_samp = np.random.normal(loc=c,scale=0.25,size=numSamplesPerCluster)
-	    samples += c_samp
+	    c_samp = np.random.normal(loc=c,scale=0.25,size=numSamples)
+	    samples = np.concatenate((samples,c_samp))
 	return categorize(samples)
 	    
