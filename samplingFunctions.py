@@ -61,12 +61,12 @@ def sampleIndependentContinuousAsymmetric(numSamples=100, offset=0):
 	sample = offset + errors
 	return categorize(sample)
 
-def generateDependentSamplesLatentNormal(numSamples=100, numClusters=2	):
+def generateDependentSamplesLatentNormal(numSamples=100, numClusters=2, offset=0):
 	"""
 	draw cluster means from normal distribution
 	Then draw samples from each of those clusters
 	"""
-	clusterMeans = np.random.normal(loc=4,scale=1,size = numClusters)
+	clusterMeans = np.random.normal(loc=offset,scale=1,size = numClusters)
 	samples = []
 	for c in clusterMeans:
 	    c_samp = np.random.normal(loc=c,scale=0.25,size=numSamples)
