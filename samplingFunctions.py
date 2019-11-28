@@ -31,8 +31,6 @@ def sampleIndependentNormalNonConstantVariance(numSamples=100, offset=0, error_m
 	else:
 		return sample
 
-print(sampleIndependentNormalNonConstantVariance())
-
 def sampleIndependentContinuousSymmetric(numSamples=100, offset=0, error_mean=0, discrete = False):
 	"""
 	errors are independent continuous symmetric: mean=median=0
