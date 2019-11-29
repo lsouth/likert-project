@@ -3,6 +3,7 @@ library(readr)
 library(latex2exp)
 
 t_test <- read_csv("~/neu/courses/cs7290/likert-project/t-test.csv")
+sign_test <- read_csv("~/neu/courses/cs7290/likert-project/sign-test.csv")
 
 treatment_labels_students <- c("Control","Errors not centered at 0", "Non-constant variance in errors",
                                "Errors from logistic distribution","Dependent observations",
@@ -23,4 +24,8 @@ make_plot <- function(test_data, test_name, labels, sample_size){
 make_plot(t_test, test_name, treatment_labels_students, 30)
 make_plot(t_test, test_name, treatment_labels_students, 100)
 make_plot(t_test, test_name, treatment_labels_students, 500)
+
+sign_test_labels <- c("Control","Errors not centered at 0","Dependent observations","Discretized data")
+
+make_plot(sign_test, "sign test", sign_test_labels, 30)
 
