@@ -23,7 +23,7 @@ if __name__ == "__main__":
                             data = sampleIndependentNormal(numSamples=sample_size, offset=median)
                         if treatment == "v1":
                             # v1: Errors from Independent Normal not centered at zero, still constant variance.
-                            data = sampleIndependentNormal(numSamples=sample_size, offset=median, error_mean=1)
+                            data = sampleIndependentNormal(numSamples=sample_size, offset=median, error_mean=np.random.normal(size=1))
                         if treatment == "v2":
                             # v2: Errors from Independent Normal centered at zero, but non-constant variance.
                             data = sampleIndependentNormalNonConstantVariance(numSamples=sample_size, offset=median)
