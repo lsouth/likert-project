@@ -8,20 +8,20 @@ def categorize(sample):
 	sample[sample > 7] = 7
 	return sample.round()
 
-<<<<<<< HEAD
 def restrict(sample):
 	sample[sample < 1] = 1
 	sample[sample > 7] = 7
 	return sample
 
-def sampleIndependentNormal(numSamples=100, offset=0, discrete=False):
+def sampleIndependentNormal(numSamples=100, offset=0, discrete=False,error_mean=0):
 	"""
 	errors are independently from normal distribution N(0,1)
 	"""
-	samples = np.random.normal(loc=offset, scale=1, size=numSamples)
+	errors = np.random.normal(loc=error_mean, scale=1, size=numSamples)
+	sample = errors + offset
 	if discrete:
-		return categorize(samples)
-	return restrict(samples)
+		return categorize(sample)
+	return restrict(sample)
 
 def sampleIndependentNormalNonConstantVariance(numSamples=100, offset=0, error_mean=0, discrete=False):
 	"""
