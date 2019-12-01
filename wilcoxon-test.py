@@ -33,10 +33,10 @@ if __name__ == "__main__":
                         if treatment == "v4":
                             # v4: Errors are independent and from Normal distribution, but data is discretized.
                             data = sampleIndependentNormal(numSamples=sample_size,offset=median,discrete=True)
-                        test_result = scipy.stats.wilcoxon(data - h0_median)
-                        two_sided_p_val = test_result[1]
-                        one_sided_p_val = two_sided_p_val / 2
-                        p_vals.append(one_sided_p_val)
+                        test_result = scipy.stats.wilcoxon(x=data - h0_median,alternative="greater")
+                        t_stat = test_result[0]
+                        p_val = test_result[1]
+                        p_vals.append(p_val)
                     p_value = np.mean(p_vals)
                     sd = np.std(p_vals)
                     lower = np.percentile(p_vals,5)

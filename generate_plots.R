@@ -2,7 +2,7 @@ library(ggplot2)
 library(readr)
 library(latex2exp)
 
-t_test <- read_csv("~/neu/courses/cs7290/likert-project/t-test.csv")
+t_test <- read_csv("~/neu/courses/cs7290/likert-project/t-test-one-sided.csv")
 sign_test <- read_csv("~/neu/courses/cs7290/likert-project/sign-test.csv")
 wilcoxon_test <- read_csv("~/neu/courses/cs7290/likert-project/wilcoxon-test.csv")
 
@@ -16,7 +16,7 @@ make_plot <- function(test_data, test_name, labels, sample_size){
   ggplot(data=test_data[test_data$sample_size==sample_size,], aes(x=median,y=p_value, color=treatment)) + 
     geom_point() + geom_line() + geom_errorbar(aes(ymin=lower,ymax=upper,color=treatment,width=0.1)) + 
     ggtitle(TeX(paste("P-values from ", test_name, " (H_0: $\\eta$ = 4) with sample size of ", sample_size))) +
-    theme(plot.title = element_text(hjust = 0.5)) + theme_light() + 
+    theme(plot.title = element_text(hjust = 0.5)) + theme_minimal() + 
     geom_abline(intercept=0.05,slope=0,linetype="dashed")+
     scale_color_discrete(name="Treatment",labels=labels) +
     scale_y_continuous(name="P-value",limits = c(0,1)) + 
@@ -33,7 +33,8 @@ make_plot(sign_test, "sign test", sign_test_labels, 30)
 make_plot(sign_test, "sign test", sign_test_labels, 100)
 make_plot(sign_test, "sign test", sign_test_labels, 500)
 
-wilcoxon_test_labels <- c("Control","Errors from asymmetric distribution","Dependent observations","Discretized data")
+wilcoxon_test_labels <- c("Control","Errors not centered at 0", "Errors from asymmetric distribution",
+                          "Dependent observations","Discretized data")
 
 make_plot(wilcoxon_test, "Wilcoxon test", wilcoxon_test_labels, 30)
 make_plot(wilcoxon_test, "Wilcoxon test", wilcoxon_test_labels, 100)

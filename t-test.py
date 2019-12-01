@@ -10,7 +10,7 @@ h0_median = 4
 
 if __name__ == "__main__":
 
-    with open("t-test.csv", "w") as f:
+    with open("t-test-one-sided.csv", "w") as f:
         f.write("id,treatment,sample_size,median,p_value,sd,lower,upper\n")
         id = 1
         data = None
@@ -37,9 +37,11 @@ if __name__ == "__main__":
                             # v5: Errors are independent and from Normal distribution, but data is discretized.
                             data = sampleIndependentNormal(numSamples=sample_size,offset=median,discrete=True)
                         test_result = scipy.stats.ttest_1samp(data,popmean=h0_median)
+                        t_stat = test_result[0]
                         two_sided_p_val = test_result[1]
                         one_sided_p_val = two_sided_p_val / 2
-                        p_vals.append(one_sided_p_val)
+                        p_val = one_sided_p_val if t_stat > 0 else 1 - one_sided_p_val
+                        p_vals.append(p_val)
                     p_value = np.mean(p_vals)
                     sd = np.std(p_vals)
                     lower = np.percentile(p_vals,5)

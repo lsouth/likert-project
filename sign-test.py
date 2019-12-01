@@ -9,6 +9,13 @@ sample_sizes = [30,100,500]
 medians = range(1,8)
 h0_median = 4
 
+def signTest(sample, etaNull):
+    alpha = 0.05
+    b = sum(sample > etaNull)
+    nStar = sum(sample != etaNull)
+    p = stats.binom.cdf(nStar - b, nStar, 0.5)
+    return b,p
+
 if __name__ == "__main__":
 
     with open("sign-test.csv", "w") as f:
@@ -32,10 +39,8 @@ if __name__ == "__main__":
                             # v3: Errors are dependent and drawn from a Normal distribution.
                             data = generateDependentSamplesLatentNormal(numSamples=sample_size,offset=median)
 
-                        test_result = statsmodels.stats.descriptivestats.sign_test(data,mu0=h0_median)
-                        two_sided_p_val = test_result[1]
-                        one_sided_p_val = two_sided_p_val / 2
-                        p_vals.append(one_sided_p_val)
+                        test_result, p_val = signTest(data,h0_median)
+                        p_vals.append(p_val)
                     p_value = np.mean(p_vals)
                     sd = np.std(p_vals)
                     lower = np.percentile(p_vals,5)
